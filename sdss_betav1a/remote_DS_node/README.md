@@ -43,7 +43,7 @@ Pod/Deployment - 3 Splunk Deployment Server (replica) nodes with the folllowing 
 * _**deployment-apps**:_
    All apps to be deployed to UFs should be in the deployment-apps directory
   
-   **Bucket:s3://<S3-BUCKET>/deployment-apps**
+   **Bucket:s3**://<S3-BUCKET>/deployment-apps
   
    **Host**: /var/s3fs/deployment-apps - Replica: /opt/splunk/etc/deployment-apps
 
