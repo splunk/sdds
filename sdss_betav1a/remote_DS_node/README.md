@@ -1,4 +1,4 @@
-**Splunk Distributed Deployment Server / SDDS**
+**Splunk Distributed Deployment Server / SDDS Remote Node setup**
 
 The code below will deploy:
 * 3 Splunk Deployment Server replica nodes running in a Kubernetes Deployment/Pod
