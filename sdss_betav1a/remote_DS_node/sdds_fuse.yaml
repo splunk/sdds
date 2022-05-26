@@ -33,7 +33,7 @@ spec:
           hostPath:
              path: /var/s3fs/sdds_outputs_config
 
-      hostname: sds
+      hostname: sdds
       dnsPolicy: ClusterFirst
       dnsConfig:
         searches:
