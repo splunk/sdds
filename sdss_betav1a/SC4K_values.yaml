@@ -1,0 +1,24 @@
+#Basic Splunk Connect for Kubernetes values.yaml file for EVENTS only
+
+global:
+  logLevel: info
+  splunk:
+    hec:
+      host: <HEC HOST>
+      port: <HEC PORT>
+      token: <HEC TOKEN>
+      protocol: https
+      insecureSSL: true
+  kubernetes:
+    clusterName: "sddsPod"
+    openshift: true
+splunk-kubernetes-logging:
+  enabled: true
+  logLevel: info
+  splunk:
+    hec:
+      indexName: sdds_events
+  containers:
+    logFormatType: cri
+    logFormat: "%Y-%m-%dT%H:%M:%S.%N%:z"
+  journalLogPath: /var/log/journal

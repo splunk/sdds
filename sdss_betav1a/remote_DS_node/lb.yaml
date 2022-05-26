@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: splunk-sdds-lb
+  namespace: splunk
+spec:
+  selector:
+    app: splunk
+  ports:
+    - port: 32740
+      targetPort: 8089
+      nodePort: 32740
+      protocol: TCP
+  externalTrafficPolicy: Local
+  sessionAffinity: ClientIP
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 
