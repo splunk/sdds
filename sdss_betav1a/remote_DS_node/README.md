@@ -17,7 +17,7 @@ Universal Forwarders connect inbound on TCP/32740 using the standard **deploymen
 * Kubernetes 1.13+ (+DNS/+Storage)
 * Clustered network support (i.e. Calico,Canal,Cilium,Flannel,Kube-ovn)
 * MetalLB (https://metallb.universe.tf/) - Apache 2.0
-* S3FS & S3 Bucket mounted on Host at /var/s3fs
+* S3FS (https://github.com/s3fs-fuse/s3fs-fuse) & S3 Bucket mounted on Host at /var/s3fs
 
 **Remote Deployment Server node configuration**
 
