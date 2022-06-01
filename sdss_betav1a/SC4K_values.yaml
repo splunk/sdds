@@ -1,5 +1,4 @@
-#Basic Splunk Connect for Kubernetes values.yaml file for EVENTS only
-
+#Splunk Connect for Kubernets Values.yaml configuration for SDDS_events and SDDS_metrics
 global:
   logLevel: info
   splunk:
@@ -22,3 +21,25 @@ splunk-kubernetes-logging:
     logFormatType: cri
     logFormat: "%Y-%m-%dT%H:%M:%S.%N%:z"
   journalLogPath: /var/log/journal
+
+splunk-kubernetes-metrics:
+  kubernetes:
+    insecureSSL: true 
+
+  # RBAC is disabled
+  rbac:
+    create: false
+
+  # do not create service account
+  serviceAccount:
+    create: false
+
+  splunk:
+    hec:
+      token: <HEC TOKEN>
+      host: <HEC HOST>
+      port: <HEC PORT>
+      protocol: https
+      indexName: sdds_metrics
+      # connection to splunk is insecure
+      insecureSSL: true
