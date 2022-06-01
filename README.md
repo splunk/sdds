@@ -2,7 +2,7 @@
 
 **What is Splunk Distributed Deployment Server/SDDS?**
 
-SDDS is a methodology to build a standardized deployment of Splunk Deployment Server that can be more easily deployed, monitored and automated.
+SDDS is a model to build a repeatable, scalable and standardized deployment of Splunk Deployment Server that can easily deployed, scaled & monitored from a central location (Monitoring Console).
 
 **SDDS has 3 components**
 
