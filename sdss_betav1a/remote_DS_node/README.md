@@ -78,3 +78,16 @@ Pod/Deployment - 3 Splunk Deployment Server (replica) nodes with the folllowing 
       batchSize = 32768 #32kb batch size instead of 64kb default
       batchTimeout = 10 #10 second timeout instead of 30s default
  
+      
+**Additional Notes**
+      
+MetalLB will prompt for an IP range to use for all internal proxy traffic. The defaults are:
+      - Config IP Range: 10.64.140.43-10.64.140.49
+
+#Install and configure S3 mount point at /var/s3fs for Ubuntu
+sudo apt install s3fs
+sudo touch /etc/passwd-s3fs
+sudo echo "AccessKey:SecretKey" >> /etc/passwd-s3fs
+sudo mkdir /var/s3fs
+sudo s3fs klgsdds /var/s3fs -o allow_other -o umask=000
+sudo ls /var/s3fs
