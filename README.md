@@ -40,3 +40,6 @@ SDDS can be easily deployed & scaled by adding "Remote" Deployment Server nodes 
       - CPU Utilization over time by host, namespace & replicas
     - <u>SDDS: Extended Metrics</u> 
       - Metric tracking over time for UF Handshakes, Downloads, Installs - OK & Failures
+
+
+[Splunk Distributed Deployment Server --- Topology.png] SDDS Topology
