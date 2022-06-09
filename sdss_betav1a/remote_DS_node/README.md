@@ -92,3 +92,9 @@ Install and configure S3 mount point at /var/s3fs for Ubuntu
       sudo mkdir /var/s3fs
       sudo s3fs klgsdds /var/s3fs -o allow_other -o umask=000
       sudo ls /var/s3fs
+      
+Restart Sequence that picks up new changes in serverclass/deployment-apps & removes the local/outputs.conf that keeps getting autocreated
+      
+     kubectl scale --replicas=0 -f sdds_fuse.yaml
+     rm -f /var/s3fs/sdds_outputs_config/local/outputs.conf
+     kubectl scale --replicas=3 -f sdds_fuse.yaml
