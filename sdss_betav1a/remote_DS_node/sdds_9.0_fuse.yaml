@@ -1,0 +1,66 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: splunk
+  name: splunksdds
+  labels:
+    app: splunk
+    role: splunksdds
+    tier: sdds
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: splunk
+      role: splunksdds
+      tier: sdds
+  template:
+    metadata:
+      labels:
+        app: splunk
+        role: splunksdds
+        tier: sdds 
+    spec:
+      volumes:
+        - name: splunk-sdds-global-config
+          hostPath:
+             path: /var/s3fs/sdds_global_config
+        - name: splunk-sdds-deployment-apps
+          hostPath:
+             path: /var/s3fs/deployment-apps
+        - name: splunk-sdds-outputs
+          hostPath:
+             path: /var/s3fs/sdds_outputs_config
+
+      hostname: sdds
+      dnsPolicy: ClusterFirst
+      dnsConfig:
+        searches:
+          - sdds.splunk.svc.cluster.local
+      containers:
+        - name: splunksdds
+          image: splunk/splunk:latest
+          ports:
+           - containerPort: 8089
+             name: splunk
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 120s; sudo /opt/splunk/bin/./splunk enable deploy-server -auth admin:changeme123"]
+          volumeMounts:
+           - mountPath: /opt/splunk/etc/deployment-apps
+             name: splunk-sdds-deployment-apps
+           - mountPath: /opt/splunk/etc/apps/sdds_global_config
+             name: splunk-sdds-global-config
+           - mountPath: /opt/splunk/etc/apps/sdds_outputs_config
+             name: splunk-sdds-outputs
+          env:
+            - name: SPLUNK_HOME
+              value: /opt/splunk
+            - name: SPLUNK_ETC
+              value: /opt/splunk/etc
+            - name: SPLUNK_PASSWORD
+              value: changeme123
+            - name: SPLUNK_START_ARGS
+              value: "--accept-license --no-prompt --answer-yes"
