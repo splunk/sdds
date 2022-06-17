@@ -7,6 +7,8 @@ SDDS is a standardized model used to build a repeatable and scalable deployment 
 
 SDDS can be easily deployed & scaled by adding "Remote" Deployment Server nodes while monitored from a central location (Monitoring Console).
 
+SDDS examples will default to **Splunk version 8.2** however additional deployment example yamls & restmap.conf are available for Splunk 9.0 see the [Instructions to setup a remote DS nodes](https://github.com/klawrencegupta-splunk/sdds/tree/main/sdss_betav1a/remote_DS_node) for more details on the differences.
+
 **SDDS has 3 components**
 
 - "Remote" Deployment Server nodes   - [Instructions to setup a remote DS nodes](https://github.com/klawrencegupta-splunk/sdds/tree/main/sdss_betav1a/remote_DS_node)
