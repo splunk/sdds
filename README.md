@@ -7,11 +7,11 @@ SDDS is a standardized model used to build a repeatable and scalable deployment 
 
 SDDS can be easily deployed & scaled by adding "Remote" Deployment Server nodes while monitored from a central location (Monitoring Console).
 
-SDDS examples will default to **Splunk version 8.2** however additional deployment example yamls & restmap.conf are available for Splunk 9.0 see the [Instructions to setup a remote DS nodes](https://github.com/klawrencegupta-splunk/sdds/tree/main/sdss_betav1a/remote_DS_node) for more details on the differences.
+SDDS examples will default to **Splunk version 8.2** however additional deployment example yamls & restmap.conf are available for Splunk 9.0 see the [Instructions to setup a remote DS nodes]([https://github.com/klawrencegupta-splunk/sdds/tree/main/sdss_betav1a/remote_DS_node](https://github.com/splunk/sdds/tree/main/sdss_betav1a/remote_DS_node)) for more details on the differences.
 
 **SDDS has 3 components**
 
-- "Remote" Deployment Server nodes   - [Instructions to setup a remote DS nodes](https://github.com/klawrencegupta-splunk/sdds/tree/main/sdss_betav1a/remote_DS_node)
+- "Remote" Deployment Server nodes   - [Instructions to setup a remote DS nodes](https://github.com/splunk/sdds/tree/main/sdss_betav1a/remote_DS_node)
 
 
   - Splunk is deployed in a Kubernetes Pod a set of 3 Splunk "replicas" or copies of Splunk Deployment Server all hosting the same configurations.
@@ -30,7 +30,7 @@ SDDS examples will default to **Splunk version 8.2** however additional deployme
   - SDDS uses Splunk Connect for Kubernetes to collect data through the Splunk HTTP Event Collector [https://docs.splunk.com/Documentation/Splunk/8.2.6/Data/UsetheHTTPEventCollector] 
     - sdds_events - index for event data Kubernetes Pod, namespace, and container level data
     - sdds_metrics - index for metrics related to Kubernetes Pod CPU and Memory utilization data
-- **SDDS Monitoring Console** app (SPL) [https://github.com/klawrencegupta-splunk/sdds/blob/main/sdss_betav1a/sdds_monitoring/sdds_monitoring.spl]
+- **SDDS Monitoring Console** app (SPL) [sdds_monitoring.spl](https://github.com/splunk/sdds/tree/main/sdss_betav1a/sdds_monitoring)]
   - **Dashboards** 
     - <u>Monitoring Console (Home)</u>
       - Deployment Server Host/Replica metrics
