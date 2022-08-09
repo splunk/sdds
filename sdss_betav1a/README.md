@@ -2,6 +2,10 @@ SDDS Monitoring uses data from the [Splunk Connect for Kubernetes](https://splun
 
 More info on Splunk Connect for Kubernetes is available at https://github.com/splunk/splunk-connect-for-kubernetes
 
+You may need to enable the following to enable the following kubectl configuration.
+
+      kubectl config view --raw > ~/.kube/config
+
 The configuration below requires:
 
  - HEC Endpoint/Port configuration info
