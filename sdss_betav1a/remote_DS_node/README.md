@@ -102,8 +102,8 @@ Pod/Deployment - 3 Splunk Deployment Server (replica) nodes with the folllowing 
       
 **Additional Notes**
       
-MetalLB will prompt for an IP range to use for all internal proxy traffic. The defaults are:
-      - Config IP Range: 10.64.140.43-10.64.140.49
+MetalLB will prompt for an IP range to use for all internal proxy traffic. The defaults from a /21 range typically yield a /29 of 6 addresses. However since MetalLB just responds to the default ARP table on the network the range just needs to represent a group of IP addresses that are available for use. Those are what will be broadcast on the network.
+      - Config IP Range: x.x.x.0-x.x.x.6
 
 Install and configure S3 mount point at /var/s3fs for Ubuntu
       
