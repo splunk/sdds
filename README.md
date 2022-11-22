@@ -23,8 +23,9 @@ SDDS examples will default to **Splunk version 8.2** however additional deployme
       3. **sdss_fuse.yaml** - Pod/Deployment of 3 Splunk replicas configured as Deployment Servers
 
   - All **serverclass.conf** & **deployment-apps** configurations [https://docs.splunk.com/Documentation/Splunk/8.2.6/Admin/Serverclassconf]
+    - any local path or NFS or FUSE mount **default path is /var/s3fs
     - are hosted on an S3 Bucket (https://aws.amazon.com/s3/)  
-    - mounted to each instance using S3FS + hostPath on mount point **/var/s3fs**
+    
 
 - [Splunk Connect 4 Kubernetes](https://github.com/splunk/splunk-connect-for-kubernetes) SC4K_values.yaml 
   - SDDS uses Splunk Connect for Kubernetes to collect data through the Splunk HTTP Event Collector [https://docs.splunk.com/Documentation/Splunk/8.2.6/Data/UsetheHTTPEventCollector] 
