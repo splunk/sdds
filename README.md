@@ -1,5 +1,5 @@
 **Splunk Distributed Deployment Server (SDDS) Project**
-license - Apache 2.0
+
 
 **What is Splunk Distributed Deployment Server/SDDS?**
 
