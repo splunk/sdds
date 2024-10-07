@@ -11,7 +11,13 @@ SDDS 1.0.0 has been tested on the following platform:
  - Microk8s 1.26 
  - Splunk 9.0+
 
-**How to Install**
+**A Splunk Monitoring Console app (sddsmc.tar.gz) is provided with the following:**
+ - indexes.conf - defines the sdds_events, sdds_metrics & sdds_history(summary) indexes
+ - inputs.conf - HEC inputs for OTEL collector
+ - savedsearches.conf - enables collection of client history with sdds_history summary index to keep track of clients, clients and apps on a 5 minute interval
+ - app/sddsmc/mc.xml - Monitoring Console view for status and historical tracking of DS activity
+
+**How to Install a Deployment Server node**
 
 The  setup runs in 4 steps:
  1. Clone this repo
