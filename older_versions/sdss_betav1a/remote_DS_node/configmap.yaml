@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: splunk
+data:
+  8089: "splunk/splunksdds:8089"
