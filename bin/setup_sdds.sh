@@ -12,8 +12,8 @@ echo "Creating directories: /opt/sdds and moving folders"
 echo "..."
 sudo mkdir /opt/sdds/
 sudo mkdir /opt/sdds/deployment-apps
-sudo cp -R yaml/ /opt/sdds/
-sudo cp -R global-config/ /opt/sdds/
+sudo cp -R ../yaml/ /opt/sdds/
+sudo cp -R ../global-config/ /opt/sdds/
 
 #create Kubernetes namespace called splunk ,configure overall context and set as default
 echo "Creating Kubernetes: setting configurations and defaults"
