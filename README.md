@@ -25,6 +25,9 @@ The  setup runs in 4 steps:
  3. Logout and back into the host
  4. Continue the installation by logging back in and using the bin/setup_sdds.sh script for the final setup
 
+**Configuration notes**
+the **outputs.conf** & **sc4otel.yaml** files will need to be updated for the appropriate indexers/HEC destinations
+
 **bin/microk8s_installer.sh**
  - an installer script to setup [Microk8s](https://microk8s.io/) from the default SNAP repo
  - You will be prompted to logout and back into the instance to finish configuration
@@ -45,6 +48,3 @@ The  setup runs in 4 steps:
    - global_config/default/outputs.conf >> $SPLUNK_HOME/etc/global_config/default
    - global_config/default/restmap.conf >> SPLUNK_HOME/etc/global_config/default
    - global_config/default/serverclass.conf >> SPLUNK_HOME/etc/global_config/default
-
-**Configuration notes**
-the **outputs.conf** & **sc4otel.yaml** files will need to be updated for the appropriate indexers/HEC destinations
