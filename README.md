@@ -1,6 +1,16 @@
 ## What is the Splunk Distributed Deployment Server (SDDS) project?
 
-SDDS is a model to build a more scalable Splunk Deployment Server by using a Kubernetes framework to create Splunk DS as replicas to service clients faster on the same compute footprint (https://docs.splunk.com/Documentation/Splunk/8.2.6/Updating/Planadeployment)
+Splunk Distributed Deployment Server (SDDS) is a model to build a more scalable Splunk Deployment Server ((https://docs.splunk.com/Documentation/Splunk/8.2.6/Updating/Planadeployment)) using a Kubernetes framework to host multiple Splunk DS replicas on the same instance; a custom Load Balancer handles the incoming traffic (https://metallb.universe.tf/)
+
+- Testing has been show SDDS to be able to host 25k+ nodes per instance; the current recommendation is 10k
+- SDDS maximizes the DS single threadeded functions & incoming TCP connections more efficiently. 
+
+**Additionally SDDS has the:**
+- ability to support older clients who don't send client-header data with each DS transaction
+- reduce TCP footprint for MITM attack posture on unecrypted endpoints
+- supports multiple Splunk versions 
+- encrypted by default with a restmap.conf configuration
+
 
 SDDS can be deployed & scaled by either:
  - adding new nodes 
