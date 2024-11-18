@@ -1,4 +1,5 @@
-#!/bin/bash Installer Script for Splunk Distributed Deployment Server project
+#!/bin/bash
+# Installer Script for Splunk Distributed Deployment Server project
 # Kate Lawrence-Gupta - Principal Platform Architect
 # https://github.com/splunk/sdds
 
