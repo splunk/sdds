@@ -1,0 +1,14 @@
+[app/ui]
+version = 9.2.1
+modtime = 1728327849.993220000
+
+[app/launcher]
+version = 9.2.1
+modtime = 1728327849.994374000
+
+[views/x]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 9.2.1
+modtime = 1728328237.122916000

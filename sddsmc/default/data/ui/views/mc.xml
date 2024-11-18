@@ -1,0 +1,388 @@
+<form version="1.1" theme="light" stylesheet="sdds.css">
+  <init>
+    <set token="hide">true</set>
+  </init>
+  <label>Monitoring Console</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="field1" searchWhenChanged="true">
+      <label>Time Range</label>
+      <default>
+        <earliest>-7d@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="checkbox" token="ct_hide" searchWhenChanged="true">
+      <label>Show Client Timeline</label>
+      <choice value="T">Yes</choice>
+    </input>
+  </fieldset>
+  <row>
+    <panel id="kubes_summary">
+      <title>Kubernetes - Pod Summary</title>
+      <input type="checkbox" token="kubes_hide" searchWhenChanged="true">
+        <label></label>
+        <choice value="T">Show Kubernetes Timeline</choice>
+        <delimiter> </delimiter>
+        <fieldForLabel>kubes_hide</fieldForLabel>
+        <fieldForValue>kubes_hide</fieldForValue>
+      </input>
+      <html>
+   <style>
+        #kubes_summary{
+            width:34% !important;
+            }
+        #sdds_summary{
+            width:34% !important;
+            }
+        #sdds_apps_class_summary{
+            width:32% !important;
+            }
+        #kubes_history{
+            width:100% !important;
+            }     
+        #handshake_history{
+            width:100% !important;
+            }
+        #appsNclasses_history{
+            width:100% !important;
+            }
+ 
+  </style>
+  </html>
+      <single>
+        <title>Kubernetes - Containers in Operation</title>
+        <search>
+          <query>index=sdds* sourcetype=sdds | transaction container.id | stats dc(k8s.pod.name) AS pod_count sum(duration) AS duration by  k8s.pod.labels.app | eval hours=round('duration'/60,2) | stats max(pod_count) AS "# of pods" max(hours) AS hours by  k8s.pod.labels.app | sort -hours | where hours&gt;0.00 | rename hours AS "hours in Operation"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="height">130</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xdc4e41"]</option>
+        <option name="rangeValues">[5,10,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trellis.splitBy">k8s.container.name</option>
+        <option name="underLabel"># of pods</option>
+        <option name="useColors">1</option>
+      </single>
+      <chart>
+        <title>Kubernetes - Pod Duration in Hours</title>
+        <search>
+          <query>index=sdds* sourcetype=sdds | transaction container.id | stats sum(duration) AS duration by k8s.pod.labels.app| eval hours=round('duration'/60,2) | stats  max(hours) AS hours by k8s.pod.labels.app | sort -hours | where hours&gt;0.00 | rename hours AS "hours in Operation"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.showDataLabels">all</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="height">350</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.size">small</option>
+      </chart>
+      <table>
+        <title>Kubernetes - Duration + Pod/App Details</title>
+        <search>
+          <query>index=sdds* sourcetype=sdds | transaction container.id | stats sum(duration) AS duration by k8s.pod.name k8s.pod.labels.app  | eval hours=round('duration'/60,2) | stats  max(hours) AS hours by  k8s.pod.name  k8s.pod.labels.app  | sort -hours | where hours&gt;0.00 | rename hours AS "hours in Operation"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel id="sdds_summary">
+      <title>Splunk - Client Handshaking Summary</title>
+      <input type="checkbox" token="sdds_hide" searchWhenChanged="true">
+        <label></label>
+        <choice value="T">Show Splunk Timeline</choice>
+        <delimiter> </delimiter>
+        <fieldForLabel>sdds_hide</fieldForLabel>
+        <fieldForValue>sdds_hide</fieldForValue>
+      </input>
+      <single>
+        <title>Splunk - # of Clients Handshaked with DS</title>
+        <search>
+          <query>index=_internal host=sdds "handshake" | rex field=channel "tenantService.handshake.reply.(?&lt;client_name&gt;\w.{1,50})\/(?&lt;client_guid&gt;\w.{1,50})" | stats dc(client_name) AS "# of Clients" dc(client_guid) AS "# of GUIDs"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="height">150</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xdc4e41"]</option>
+        <option name="rangeValues">[100,1000,10000]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="underLabel">Found</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">0</option>
+      </single>
+      <chart>
+        <title>Splunk - Count of Clients/Guids span=1h</title>
+        <search>
+          <query>index=_internal host=sdds "handshake" | rex field=channel "tenantService.handshake.reply.(?&lt;client_name&gt;\w.{1,50})\/(?&lt;client_guid&gt;\w.{1,50})" | timechart dc(client_guid) AS "# of Guids" dc(client_name) AS "# of Clients" span=1h by host</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="height">350</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+      <table>
+        <title>Splunk - SDDS Handshaking Details</title>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd connection | rex field=_raw "connection\_(?&lt;ds_client_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\_(?&lt;ds_port&gt;\d+)\_(?&lt;ds_proxy_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\_(?&lt;ds_client_hostname&gt;\w.{1,50})\_(?&lt;ds_client_guid&gt;\w.{1,50})\s" | stats dc(ds_client_guid) AS "# of GUIDs found" dc(ds_client_hostname) AS "# of unique hostnames found" by ds_client_ip, ds_proxy_ip, ds_port | table "#*" ds*</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel id="sdds_apps_class_summary">
+      <title>Splunk - Peers | Apps | Classes</title>
+      <input type="checkbox" token="anc_hide" searchWhenChanged="true">
+        <label></label>
+        <choice value="T">Show Splunk Timeline</choice>
+        <delimiter> </delimiter>
+        <fieldForLabel>anc_hide</fieldForLabel>
+        <fieldForValue>anc_hide</fieldForValue>
+      </input>
+      <single>
+        <title>Splunk - # of peers, serverClasses, apps</title>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd peer | rex field=peer "(?&lt;src_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}):\d+" | stats dc(src_ip) AS "# of peers" dc(serverclass) AS "# of serverClasses" dc(app) AS "# of Apps"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="height">150</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0x555"]</option>
+        <option name="rangeValues">[5,10,25]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="underLabel">Found</option>
+        <option name="useColors">1</option>
+      </single>
+      <chart>
+        <title>Splunk - Count of Apps &amp; ServerClasses span=1h</title>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd | timechart dc(serverclass) AS "# of Serverclasses" by app usenull=f useother=f</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="height">350</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+      <table>
+        <title>Splunk - # of Peers matched over serverclass by app</title>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd | chart dc(peer) AS "# of Serverclasses" over serverclass by app usenull=f</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel id="kubes_history" depends="$kubes_hide$=T">
+      <title>Kubernetes: Timeline : Details</title>
+      <input type="dropdown" token="k8s.pod.labels.app">
+        <label>Filter by k8s.pod.labels.app</label>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <fieldForLabel>k8s.pod.labels.app</fieldForLabel>
+        <fieldForValue>k8s.pod.labels.app</fieldForValue>
+        <search>
+          <query>index=sdds*  sourcetype=sdds | stats count by k8s.pod.labels.app | where count&gt;1  | fields k8s.pod.labels.app | dedup k8s.pod.labels.app</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+      </input>
+      <table>
+        <search>
+          <query>index=sdds*  sourcetype=sdds k8s.pod.labels.app=$k8s.pod.labels.app$| convert ctime(_ctime) AS time  | stats values(k8s.pod.name) AS "Pod Name" dc(k8s.pod.name) AS "Pod Count" by k8s.container.name k8s.node.name k8s.pod.labels.app _time   | rename k8s.pod.labels.app AS "Pod Apps"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel id="handshake_history" depends="$sdds_hide$=T">
+      <title>Splunk: Handshake Timeline : Details</title>
+      <input type="dropdown" token="ds_client_ip">
+        <label>Client IP</label>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <fieldForLabel>ds_client_ip</fieldForLabel>
+        <fieldForValue>ds_client_ip</fieldForValue>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd connection | rex field=_raw "connection\_(?&lt;ds_client_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\_(?&lt;ds_port&gt;\d+)\_(?&lt;ds_proxy_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\_(?&lt;ds_client_hostname&gt;\w.{1,50})\_(?&lt;ds_client_guid&gt;\w.{1,50})\s"  | fields ds_client_ip | dedup ds_client_ip</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+        </search>
+      </input>
+      <input type="multiselect" token="ds_client_hostname" searchWhenChanged="true">
+        <label>Client Hostname</label>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <valuePrefix>ds_client_hostname=</valuePrefix>
+        <delimiter> OR </delimiter>
+        <fieldForLabel>ds_client_hostname</fieldForLabel>
+        <fieldForValue>ds_client_hostname</fieldForValue>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd connection  | rex field=_raw "connection\_(?&lt;ds_client_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\_(?&lt;ds_port&gt;\d+)\_(?&lt;ds_proxy_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\_(?&lt;ds_client_hostname&gt;\w.{1,50})\_(?&lt;ds_client_guid&gt;\w.{1,50})\s" | stats count by ds_client_hostname | fields ds_client_hostname | dedup ds_client_hostname</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+        </search>
+      </input>
+      <table>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd connection | convert ctime(_time) AS time | rex field=_raw "connection\_(?&lt;ds_client_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\_(?&lt;ds_port&gt;\d+)\_(?&lt;ds_proxy_ip&gt;\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3})\_(?&lt;ds_client_hostname&gt;\w.{1,50})\_(?&lt;ds_client_guid&gt;\w.{1,50})\s" | search $ds_client_hostname$ AND $ds_client_ip$  | stats last(time) AS lastTime values(ds_client_ip) AS ds_client_ip values(ds_proxy_ip) AS ds_proxy_ip values(ds_port) AS ds_port by ds_client_hostname | table lastTime ds_*</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel id="appsNclasses_history" depends="$anc_hide$=T">
+      <title>Splunk: serverClass &amp; app Timeline : Details</title>
+      <input type="multiselect" token="app" searchWhenChanged="true">
+        <label>Filter by App</label>
+        <choice value="*">All</choice>
+        <fieldForLabel>app</fieldForLabel>
+        <fieldForValue>app</fieldForValue>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd | stats count by app serverclass peer | fields app | dedup app</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+        </search>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <valuePrefix>app=</valuePrefix>
+        <delimiter> OR </delimiter>
+      </input>
+      <input type="multiselect" token="serverclass" searchWhenChanged="true">
+        <label>Filter by ServerClass</label>
+        <fieldForLabel>serverclass</fieldForLabel>
+        <fieldForValue>serverclass</fieldForValue>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd | stats count by app serverclass peer | fields serverclass | dedup serverclass</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+        </search>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <valuePrefix>serverclass=</valuePrefix>
+        <delimiter> OR </delimiter>
+      </input>
+      <table>
+        <search>
+          <query>index=_internal host=sdds sourcetype=splunkd $app$ AND $serverclass$| stats values(app) AS app by serverclass peer _time | table _time serverclass app peer | rename peer AS lastKnownPeer</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel id="client_timeline_chart" depends="$ct_hide$">
+      <title>Client Timeline: Forwarder count span=1h by serverClass</title>
+      <input type="multiselect" token="serverClass" searchWhenChanged="true">
+        <label>serverClass</label>
+        <choice value="*">All</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+        <valuePrefix>serverClass=</valuePrefix>
+        <delimiter> OR </delimiter>
+        <fieldForLabel>serverClass</fieldForLabel>
+        <fieldForValue>serverClass</fieldForValue>
+        <search>
+          <query>index="sdds_history" | fields serverClass | dedup serverClass | sort -serverClass</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+        </search>
+      </input>
+      <input type="dropdown" token="app" searchWhenChanged="true">
+        <label>app</label>
+        <choice value="*">All</choice>
+        <fieldForLabel>app</fieldForLabel>
+        <fieldForValue>app</fieldForValue>
+        <search>
+          <query>index="sdds_history" | fields app | dedup app | sort -app</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+        </search>
+      </input>
+      <chart>
+        <search>
+          <query>index="sdds_history" $serverClass$ AND $app$  | chart dc(orig_host) over _time by serverClass span=1h</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel id="client_timeline_tablet" depends="$ct_hide$">
+      <title>Client Timeline: Forwarder Activity: Details</title>
+      <table>
+        <search>
+          <query>index="sdds_history" $serverClass$ AND $app$  | stats values(orig_host) AS orig_host by _time serverClass app</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">25</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>
