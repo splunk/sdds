@@ -58,3 +58,4 @@ the **outputs.conf** & **sc4otel.yaml** files will need to be updated for the ap
    - global_config/default/outputs.conf >> $SPLUNK_HOME/etc/global_config/default
    - global_config/default/restmap.conf >> SPLUNK_HOME/etc/global_config/default
    - global_config/default/serverclass.conf >> SPLUNK_HOME/etc/global_config/default
+   - global_config/default/optional-server.conf >> SPLUNK_HOME/etc/global_config/default  *if you have a previously set pass4symmkey for the UFs you will need to set that key in this apps server.conf file to avoid 401 errors
