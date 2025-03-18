@@ -17,7 +17,7 @@ SDDS can be deployed & scaled by either:
 
 SDDS 1.0.0 has been tested on the following platform:
  - Ubuntu 22.04 w/ snap
- - Microk8s 1.26 
+ - Microk8s 1.32 
  - Splunk 9.0+
 
 **Updated Topologies** (see Topology Diagram)
