@@ -21,7 +21,7 @@ SDDS 1.0.0 has been tested on the following platform:
  - Splunk 9.0+
 
 **Updated Topologies** (see Topology Diagram)
-- **Recommendation**  - Splunk does not recommend hosting a Deployment Server along an edge network due to the lack of authentication and default encryption in additiona to the open TCP port requirement
+- **Recommendation**  - Splunk does not recommend hosting a Deployment Server along an edge network due to the lack of proper token authentication and basic encryption in addition to the open TCP port requirement
 - **VPN Configuration**  - if Universal Forwarders are connecting to Internal networks using TCP enabled bi-direction VPN; then the Internal DS nodes can be used.
 - **Alternate Configuration** - if Universal Forwarders are on an External network with no TCP connectivity to Internal DS nodes; then a separate DS node can be deployed in either a Layer2/3 network accessible instance to the Univseral Forwarders in that subnet.
  - - The SDDS node in this configuration should continue to send monitoring data through HEC allowing for passive monitoring of remote DS nodes.
