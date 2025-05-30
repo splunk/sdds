@@ -538,8 +538,8 @@ clusterReceiver:
   # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/k8sobjectsreceiver
   k8sObjects:
     - name: pods
-    mode: pull
-    interval: 15m
+      mode: pull
+      interval: 15m
 
   # k8s cluster receiver extra pod labels
   podLabels: {}
