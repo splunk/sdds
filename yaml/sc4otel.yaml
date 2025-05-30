@@ -438,10 +438,7 @@ agent:
   # Default configuration defined in templates/config/_otel-agent.tpl
   # Any additional fields will be merged into the defaults,
   # existing fields can be disabled by setting them to null value.
-  config:
-    receivers:
-      kubeletstats:
-        insecure_skip_verify: false
+  config: {}
 
   # Discovery mode attempts to automatically configure the agent with bundled metric receiver configuration.
   # For more details, refer to: https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#discovery-mode
