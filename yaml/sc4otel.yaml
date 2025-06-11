@@ -31,7 +31,7 @@ splunkPlatform:
   # to. e.g. "http://X.X.X.X:8088/services/collector/event". Setting this parameter
   # enables Splunk Platform as a destination. Use the /services/collector/event
   # endpoint for proper extraction of fields.
-  endpoint: "http://10.202.6.202:8088/services/collector/event"
+  endpoint: "http://host:8088/services/collector/event"
   # Required for Splunk Enterprise/Cloud (if `endpoint` is specified). Splunk
   # Alternatively the token can be provided as a secret.
   # Refer to https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/advanced-configuration.md#provide-tokens-as-a-secret
@@ -536,10 +536,7 @@ clusterReceiver:
   #
   # The configuration format in details is described here:
   # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver/k8sobjectsreceiver
-  k8sObjects:
-    - name: pods
-    mode: pull
-    interval: 15m
+  k8sObjects: []
 
   # k8s cluster receiver extra pod labels
   podLabels: {}
@@ -558,28 +555,7 @@ clusterReceiver:
   # Default configuration defined in templates/config/_otel-k8s-cluster-receiver-config.tpl
   # Any additional fields will be merged into the defaults,
   # existing fields can be disabled by setting them to null value.
-  config:
-    processors:
-      transform/modify_raw:
-        log_statements:
-          - context: log
-            statements:
-              - set(body["spec"]["containers"][0]["env"], "null")
-              - set(body["metadata"]["managedFields"], "null")
-    service:
-      pipelines:
-        logs/objects:
-          receivers: 
-            - k8sobjects
-          processors:
-            - memory_limiter
-            - transform/modify_raw
-            - batch
-            - resourcedetection
-            - resource
-            - transform/add_sourcetype
-          exporters:
-            - splunk_hec/platform_logs
+  config: {}
 
 #################################################################
 # Native OpenTelemetry logs collection
