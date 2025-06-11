@@ -5,6 +5,8 @@ Splunk Distributed Deployment Server (SDDS) is a model to build a more scalable 
 - Testing has been show SDDS to be able to host 25k+ nodes per instance; the current recommendation is 10k
 - SDDS maximizes the DS single threadeded functions & incoming TCP connections more efficiently. 
 
+**Update:** EKS now supports the MetalLB framework which is a requirement for the SDDS deployment. More available at https://anywhere.eks.amazonaws.com/docs/packages/metallb/
+
 **Additionally SDDS has the:**
 - ability to support older clients who don't send client-header data with each DS transaction
 - reduce TCP footprint for MITM attack posture on unecrypted/unauthenticated endpoints
