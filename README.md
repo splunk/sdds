@@ -5,6 +5,16 @@ Splunk Distributed Deployment Server (SDDS) is a model to build a more scalable 
 - Testing has been show SDDS to be able to host 25k+ nodes per instance; the current recommendation is 10k
 - SDDS maximizes the DS single threadeded functions & incoming TCP connections more efficiently. 
 
+**Update:** Splunk v10 & Agent Manager support
+- use the updated sdds_v10.yaml for running a SDDS nodes with Splunk v10
+- use the updated outputs.conf to send data from these _internal indexes to either the search head running Agent Management (AMSH) or to your indexer tier for indexing.
+- forwardedindex.3.whitelist = _dsphonehome
+- forwardedindex.4.whitelist = _dsappevent
+- forwardedindex.5.whitelist = _dsclient
+- this data  will populate the Agent Manager Dashboard - Forwarders section
+- **Recommendation** enable a CI/CD process to ensure the /opt/splunk/etc/SplunkDeploymentServerConfig/servclass.conf & /opt/splunk/etc/deployment-apps directories are in sync between the AMSH & your SDDS nodes.
+- This will populate the AMSH with data about the serverclasses & apps detected while also being up to date at the SDDS node.
+
 **Update:** EKS now supports the MetalLB framework which is a requirement for the SDDS deployment. More available at https://anywhere.eks.amazonaws.com/docs/packages/metallb/
 
 **Additionally SDDS has the:**
